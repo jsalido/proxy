@@ -44,35 +44,57 @@ public class Mano {
     }
 
     public int contarPares() {
-        return 0;
+        return buscarPorNumero(2);
     }
 
     public int contarTercias() {
-        return 0;
+        return buscarPorNumero(3);
     }
 
     public int contarPoker() {
-        return 0;
-    }
-
-    public boolean checarStraight() {
-        return false;
+        return buscarPorNumero(4);
     }
 
     public boolean checarFlush() {
-        return false;
-    }
-
-    public boolean checarStraightFlush() {
-        return false;
+        Carta primera = cartas.get(0);
+        for (Carta c : cartas) {
+            if (!c.getPalo().equals(primera.getPalo())) return false;
+        }
+        return true;
     }
 
     public boolean checarFullHouse() {
-        return false;
+        return (contarPares() == 1 && contarTercias() == 1);
+    }
+
+    public boolean checarStraightFlush() {
+        return checarFlush() && checarStraight();
+    }
+
+    public boolean checarStraight() {
+        ordenarMano();
+        Carta primera = cartas.get(0);
+        Carta ultima = cartas.get(cartas.size() - 1);
+        int valor = primera.getTipoDeCarta().getValor();
+        if (primera.getTipoDeCarta().equals(TipoDeCarta.AS)
+                && ultima.getTipoDeCarta().equals(TipoDeCarta.REY)) {
+            valor = 9;
+        }
+        for (Carta c : cartas) {
+            if (c.equals(primera)) continue;
+            if (c.getTipoDeCarta().getValor() != valor + 1) return false;
+            valor++;
+        }
+        return true;
     }
 
     public boolean checarRoyalFlush() {
-        return false;
+        this.ordenarMano();
+        return checarStraight()
+                && checarFlush()
+                && (cartas.get(0).getTipoDeCarta().equals(TipoDeCarta.AS))
+                && (cartas.get(cartas.size() - 1).getTipoDeCarta().equals(TipoDeCarta.REY)
+        );
     }
 
     @Override
