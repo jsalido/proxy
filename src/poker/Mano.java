@@ -27,6 +27,22 @@ public class Mano {
         Collections.sort(cartas);
     }
 
+    private int buscarPorNumero(int numero) {
+        int paresEncontrados = 0;
+        for (TipoDeCarta tipo : TipoDeCarta.values()) {
+            int encontradas = 0;
+            for (Carta c : cartas) {
+                if (c.getTipoDeCarta().equals(tipo)) {
+                    encontradas++;
+                }
+            }
+            if (encontradas == numero) {
+                paresEncontrados++;
+            }
+        }
+        return paresEncontrados;
+    }
+
     public int contarPares() {
         return 0;
     }
